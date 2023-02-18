@@ -2,6 +2,7 @@ plugins {
     kotlin("multiplatform")
     id("com.android.library")
     id("org.jetbrains.compose")
+    kotlin("plugin.serialization")
 }
 
 
@@ -69,6 +70,10 @@ kotlin {
                     implementation(material)
                     implementation(runtime)
                 }
+                implementation(libs.ktor.core)
+                implementation(libs.kotlinx.serialization.json)
+                implementation(libs.kotlinx.coroutines.core)
+                implementation("io.ktor:ktor-client-content-negotiation:2.2.2")
             }
 
         }
@@ -77,7 +82,12 @@ kotlin {
                 implementation(kotlin("test"))
             }
         }
-        val androidMain by getting
+        val androidMain by getting{
+            dependsOn(commonMain)
+            dependencies {
+                implementation(libs.ktor.client.okhttp)
+            }
+        }
         val androidUnitTest by getting
         val iosX64Main by getting
         val iosArm64Main by getting
@@ -87,6 +97,11 @@ kotlin {
             iosX64Main.dependsOn(this)
             iosArm64Main.dependsOn(this)
             iosSimulatorArm64Main.dependsOn(this)
+
+            dependencies {
+                implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core:1.4.3-native-mt")
+                implementation(libs.ktor.client.ios)
+            }
         }
         val iosX64Test by getting
         val iosArm64Test by getting
