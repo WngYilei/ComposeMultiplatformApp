@@ -10,24 +10,23 @@ import io.ktor.client.request.*
 import kotlinx.coroutines.*
 import io.ktor.client.engine.darwin.*
 import io.ktor.client.plugins.contentnegotiation.*
+import io.ktor.serialization.kotlinx.json.*
 import kotlinx.serialization.json.Json
 
-class IOSPlatform: Platform {
-    override val name: String = UIDevice.currentDevice.systemName() + " " + UIDevice.currentDevice.systemVersion
+class IOSPlatform : Platform {
+    override val name: String =
+        UIDevice.currentDevice.systemName() + " " + UIDevice.currentDevice.systemVersion
 
-    private val client = HttpClient(Darwin){
-       install(ContentNegotiation){
-           Json {
-               prettyPrint = true
-               isLenient = true
-           }
-       }
+    private val client = HttpClient(Darwin) {
+        install(ContentNegotiation) {
+            json()
+        }
     }
 
-    override fun getData(result: (msg:String) -> Unit) {
+    override fun getData(result: (msg: String) -> Unit) {
         MainScope().launch {
-            val httpRequestData =client.get("https://www.wanandroid.com/banner/json")
-            val data = httpRequestData.body<BannerBean>()
+            val httpRequestData = client.get("https://www.wanandroid.com/banner/json")
+            val data = httpRequestData.body<ResponseBean>()
             result.invoke(data.data.toString())
         }
     }

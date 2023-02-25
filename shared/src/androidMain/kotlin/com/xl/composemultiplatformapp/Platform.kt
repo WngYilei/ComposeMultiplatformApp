@@ -10,24 +10,23 @@ import kotlinx.coroutines.MainScope
 import kotlinx.coroutines.launch
 import io.ktor.client.engine.okhttp.*
 import io.ktor.client.plugins.contentnegotiation.*
+import io.ktor.serialization.kotlinx.json.*
 import kotlinx.serialization.json.Json
 
 class AndroidPlatform : Platform {
     override val name: String = "Android ${android.os.Build.VERSION.SDK_INT}"
 
-    private val client = HttpClient(OkHttp){
-        install(ContentNegotiation){
-            Json {
-                prettyPrint = true
-                isLenient = true
-            }
+    private val client = HttpClient(OkHttp) {
+        install(ContentNegotiation) {
+            json()
         }
     }
-    override fun getData(result: (msg:String) -> Unit) {
+
+    override fun getData(result: (msg: String) -> Unit) {
         MainScope().launch {
             val httpRequestData = client.get("https://www.wanandroid.com/banner/json")
-            val data = httpRequestData.body<BannerBean>()
-            result.invoke(data.data.toString())
+            val data = httpRequestData.body<ResponseBean>()
+            result.invoke(data.toString())
         }
     }
 }

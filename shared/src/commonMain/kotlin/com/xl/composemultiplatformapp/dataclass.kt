@@ -1,19 +1,19 @@
 package com.xl.composemultiplatformapp
-
+import kotlinx.serialization.*
 /**
  * @Author : wyl
  * @Date : 2023/2/18
  * Desc :
  */
-@kotlinx.serialization.Serializable
-data class BannerBean(
-    val `data`: List<Data>,
+@Serializable
+data class ResponseBean(
+    val `data`: List<BannerBean>,
     val errorCode: Int,
     val errorMsg: String
 )
 
-@kotlinx.serialization.Serializable
-data class Data(
+@Serializable
+data class BannerBean(
     val desc: String,
     val id: Int,
     val imagePath: String,

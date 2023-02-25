@@ -73,7 +73,8 @@ kotlin {
                 implementation(libs.ktor.core)
                 implementation(libs.kotlinx.serialization.json)
                 implementation(libs.kotlinx.coroutines.core)
-                implementation("io.ktor:ktor-client-content-negotiation:2.2.2")
+                implementation(libs.ktor.client.negotiation)
+                implementation(libs.ktor.client.json)
             }
 
         }
