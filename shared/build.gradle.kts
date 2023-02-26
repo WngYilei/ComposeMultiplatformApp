@@ -70,6 +70,7 @@ kotlin {
                     implementation(material)
                     implementation(runtime)
                 }
+                implementation("org.jetbrains.compose.components:components-resources:1.4.0-alpha01-dev942")
                 implementation(libs.ktor.core)
                 implementation(libs.kotlinx.serialization.json)
                 implementation(libs.kotlinx.coroutines.core)
@@ -124,4 +125,8 @@ android {
         minSdk = 24
         targetSdk = 33
     }
+
+    sourceSets["main"].manifest.srcFile("src/androidMain/AndroidManifest.xml")
+    sourceSets["main"].res.srcDirs("src/androidMain/res")
+    sourceSets["main"].resources.srcDir("src/commonMain/resources")
 }
