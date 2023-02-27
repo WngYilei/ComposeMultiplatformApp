@@ -23,9 +23,9 @@ kotlin {
         it.binaries.framework {
             baseName = "shared"
             isStatic = true
+
         }
     }
-
 
     val args = listOf(
         "-linker-option", "-framework", "-linker-option", "Metal",
@@ -40,6 +40,7 @@ kotlin {
                 entryPoint = "main"
                 freeCompilerArgs = freeCompilerArgs + args
             }
+
         }
     }
     iosArm64("uikitArm64") {
