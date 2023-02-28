@@ -13,8 +13,7 @@ import io.ktor.client.plugins.contentnegotiation.*
 import io.ktor.serialization.kotlinx.json.*
 
 class IOSPlatform : Platform {
-    override val name: String =
-        UIDevice.currentDevice.systemName() + " " + UIDevice.currentDevice.systemVersion
+    override val name: String = UIDevice.currentDevice.systemName() + " " + UIDevice.currentDevice.systemVersion
 
     private val client = HttpClient(Darwin) {
         install(ContentNegotiation) {
