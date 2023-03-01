@@ -23,9 +23,9 @@ kotlin {
         it.binaries.framework {
             baseName = "shared"
             isStatic = true
+
         }
     }
-
 
     val args = listOf(
         "-linker-option", "-framework", "-linker-option", "Metal",
@@ -40,6 +40,7 @@ kotlin {
                 entryPoint = "main"
                 freeCompilerArgs = freeCompilerArgs + args
             }
+
         }
     }
     iosArm64("uikitArm64") {
@@ -70,10 +71,12 @@ kotlin {
                     implementation(material)
                     implementation(runtime)
                 }
+                implementation("org.jetbrains.compose.components:components-resources:1.4.0-alpha01-dev942")
                 implementation(libs.ktor.core)
                 implementation(libs.kotlinx.serialization.json)
                 implementation(libs.kotlinx.coroutines.core)
-                implementation("io.ktor:ktor-client-content-negotiation:2.2.2")
+                implementation(libs.ktor.client.negotiation)
+                implementation(libs.ktor.client.json)
             }
 
         }
@@ -123,4 +126,8 @@ android {
         minSdk = 24
         targetSdk = 33
     }
+
+    sourceSets["main"].manifest.srcFile("src/androidMain/AndroidManifest.xml")
+    sourceSets["main"].res.srcDirs("src/androidMain/res")
+    sourceSets["main"].resources.srcDir("src/commonMain/resources")
 }
