@@ -1,4 +1,4 @@
-package com.xl.composemultiplatformapp
+package com.xl.composemultiplatformapp.data
 import kotlinx.serialization.*
 /**
  * @Author : wyl

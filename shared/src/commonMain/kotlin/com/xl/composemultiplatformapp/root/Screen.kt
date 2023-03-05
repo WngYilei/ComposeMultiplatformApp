@@ -1,43 +1,35 @@
 package com.xl.composemultiplatformapp.root
 
-import androidx.compose.foundation.Image
-import androidx.compose.foundation.layout.Box
-import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.material.Button
+import androidx.compose.foundation.background
+import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.lazy.itemsIndexed
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
+import androidx.compose.runtime.collectAsState
+import androidx.compose.runtime.mutableStateListOf
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.unit.dp
+import com.xl.composemultiplatformapp.data.BannerBean
 import com.xl.composemultiplatformapp.Greeting
-import com.xl.composemultiplatformapp.getPlatform
-import org.jetbrains.compose.resources.ExperimentalResourceApi
-import org.jetbrains.compose.resources.painterResource
+import com.xl.composemultiplatformapp.model.MainViewModel
 
-
-@OptIn(ExperimentalResourceApi::class)
 @Composable
 internal fun KMMView(device: String) {
 
+    val bannerBeans = mutableStateListOf<BannerBean>()
+    MainViewModel.getBanner {
+        bannerBeans.addAll(it.data)
+    }
+
     Box(modifier = Modifier.fillMaxSize(), contentAlignment = Alignment.Center) {
-
-        val str = remember { mutableStateOf("Compose 跨端  $device  View  ${Greeting().greet()}") }
-
         Column {
-            Text(str.value)
-
-//            Image(
-//                painter = painterResource("icon_look_devices.png"), ""
-//            )
-
-            Button(onClick = {
-                Greeting().getData {
-                    str.value = it
+            LazyColumn(Modifier.fillMaxWidth().height(200.dp).background(Color.Cyan)) {
+                itemsIndexed(bannerBeans) { index, item ->
+                    Text(item.title)
                 }
-            }) {
-                Text("获取数据")
             }
         }
     }
