@@ -5,8 +5,10 @@ package com.xl.composemultiplatformapp.net
  * @Date : 2023/2/28
  * Desc :
  */
-object Url {
+object HttpUrl {
 
     const val banner = "https://www.wanandroid.com/banner/json"
+
+    const val register = "https://www.wanandroid.com/user/register"
 
 }
