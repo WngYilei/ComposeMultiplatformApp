@@ -23,7 +23,6 @@ kotlin {
         it.binaries.framework {
             baseName = "shared"
             isStatic = true
-
         }
     }
 
@@ -32,7 +31,6 @@ kotlin {
         "-linker-option", "-framework", "-linker-option", "CoreText",
         "-linker-option", "-framework", "-linker-option", "CoreGraphics"
     )
-
 
     iosX64("uikitX64") {
         binaries {
@@ -57,9 +55,6 @@ kotlin {
             kotlinOptions.jvmTarget = "11"
         }
     }
-
-
-
 
     sourceSets {
         val commonMain by getting{
@@ -131,3 +126,4 @@ android {
     sourceSets["main"].res.srcDirs("src/androidMain/res")
     sourceSets["main"].resources.srcDir("src/commonMain/resources")
 }
+

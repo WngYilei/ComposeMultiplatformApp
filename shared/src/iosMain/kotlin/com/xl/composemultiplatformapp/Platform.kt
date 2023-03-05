@@ -10,10 +10,12 @@ import io.ktor.client.request.*
 import kotlinx.coroutines.*
 import io.ktor.client.engine.darwin.*
 import io.ktor.client.plugins.contentnegotiation.*
+import io.ktor.http.*
 import io.ktor.serialization.kotlinx.json.*
 
 class IOSPlatform : Platform {
-    override val name: String = UIDevice.currentDevice.systemName() + " " + UIDevice.currentDevice.systemVersion
+    override val name: String =
+        UIDevice.currentDevice.systemName() + " " + UIDevice.currentDevice.systemVersion
 
     private val client = HttpClient(Darwin) {
         install(ContentNegotiation) {
@@ -23,11 +25,23 @@ class IOSPlatform : Platform {
 
     override fun getData(result: (msg: String) -> Unit) {
         MainScope().launch {
-            val httpRequestData = client.get("https://www.wanandroid.com/banner/json")
-            val data = httpRequestData.body<ResponseBean>()
-            result.invoke(data.data.toString())
+//            val httpRequestData = client.get("https://www.wanandroid.com/banner/json")
+//            val data = httpRequestData.body<ResponseBean>()
+//            result.invoke(data.data.toString())
+
+            val httpRequestData = client.post("https://www.wanandroid.com/user/register") {
+                contentType(ContentType.Application.Json)
+                parameter("username", "wangyilei")
+                parameter("password", "xiaolei521")
+                parameter("repassword", "xiaolei521")
+            }
+
+            val data = httpRequestData.body<String>()
+            result.invoke(data)
         }
     }
+
+    override fun getClient() = client
 }
 
 actual fun getPlatform(): Platform = IOSPlatform()
