@@ -11,6 +11,7 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import com.xl.composemultiplatformapp.Greeting
 import com.xl.composemultiplatformapp.getPlatform
 import org.jetbrains.compose.resources.ExperimentalResourceApi
 import org.jetbrains.compose.resources.painterResource
@@ -22,18 +23,17 @@ internal fun KMMView(device: String) {
 
     Box(modifier = Modifier.fillMaxSize(), contentAlignment = Alignment.Center) {
 
-        val str = remember { mutableStateOf("Compose 跨端  $device  View") }
+        val str = remember { mutableStateOf("Compose 跨端  $device  View  ${Greeting().greet()}") }
 
         Column {
             Text(str.value)
 
-            Image(
-                painter = painterResource("icon_look_devices.png"),
-            ""
-            )
+//            Image(
+//                painter = painterResource("icon_look_devices.png"), ""
+//            )
 
             Button(onClick = {
-                getPlatform().getData {
+                Greeting().getData {
                     str.value = it
                 }
             }) {

@@ -34,15 +34,11 @@ class AndroidPlatform : Platform {
 //            val data = httpRequestData.body<ResponseBean>()
 //            result.invoke(data.toString())
 
-
-            val jsonObject = JSONObject()
-            jsonObject.put("username", "wangyilei")
-            jsonObject.put("password", "xiaolei521")
-            jsonObject.put("repassword", "xiaolei521")
-
             val httpRequestData = client.post("https://www.wanandroid.com/user/register") {
                 contentType(ContentType.Application.Json)
-                setBody(jsonObject.toString())
+                parameter("username", "wangyilei")
+                parameter("password", "xiaolei521")
+                parameter("repassword", "xiaolei521")
             }
 
             val data = httpRequestData.body<String>()
@@ -51,6 +47,9 @@ class AndroidPlatform : Platform {
 
         }
     }
+
+
+    override fun getClient() = client
 }
 
 actual fun getPlatform(): Platform = AndroidPlatform()
