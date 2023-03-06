@@ -1,5 +1,17 @@
 # ComposeMultiplatformApp
 这是一个学习Compose跨平台的项目，主要是Android端和ios端
-目前是调试好了环境，可以用Compose 展示一些平台信息
-后面会继续把文档完善
-先这样吧
+技术栈：
+
+- kotlin 1.8.0
+
+- Compose 1.3.0
+
+- Ktor 2.2.2
+
+  
+
+关于Compose  ios 的配置踩坑 可以移步掘金：
+
+> 上手试试Compose ios
+>
+> https://juejin.cn/post/7201831630603976741
