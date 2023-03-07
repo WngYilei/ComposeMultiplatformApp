@@ -26,10 +26,6 @@ class AndroidPlatform : Platform {
 
     override fun getData(result: (msg: String) -> Unit) {
         MainScope().launch(ApplicationDispatcher) {
-//            val httpRequestData = client.get("https://www.wanandroid.com/banner/json")
-//            val data = httpRequestData.body<ResponseBean>()
-//            result.invoke(data.toString())
-
             val httpRequestData = client.post("https://www.wanandroid.com/user/register") {
                 contentType(ContentType.Application.Json)
                 parameter("username", "wangyilei")
