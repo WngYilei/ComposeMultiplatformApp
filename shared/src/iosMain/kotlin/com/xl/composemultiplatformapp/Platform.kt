@@ -1,6 +1,8 @@
 package com.xl.composemultiplatformapp
 
 import androidx.compose.ui.window.Application
+import com.seiko.imageloader.ImageLoader
+import com.seiko.imageloader.component.setupKtorComponents
 import com.xl.composemultiplatformapp.root.KMMView
 import platform.UIKit.UIDevice
 import platform.UIKit.UIViewController
@@ -12,7 +14,7 @@ import io.ktor.client.engine.darwin.*
 import io.ktor.client.plugins.contentnegotiation.*
 import io.ktor.http.*
 import io.ktor.serialization.kotlinx.json.*
-
+import com.seiko.imageloader.component.decoder.SkiaImageDecoder
 class IOSPlatform : Platform {
     override val name: String =
         UIDevice.currentDevice.systemName() + " " + UIDevice.currentDevice.systemVersion
@@ -42,6 +44,14 @@ class IOSPlatform : Platform {
     }
 
     override fun getClient() = client
+    override fun getImageLoader() = ImageLoader() {
+        components {
+            setupKtorComponents {
+                client
+            }
+            add(SkiaImageDecoder.Factory())
+        }
+    }
 }
 
 actual fun getPlatform(): Platform = IOSPlatform()

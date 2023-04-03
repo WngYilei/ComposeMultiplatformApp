@@ -22,7 +22,7 @@ object MainViewModel : ReduxViewModel() {
 
 
     fun getBanner(result: (bean: ResponseBean) -> Unit) {
-        MainScope().launch(ApplicationDispatcher) {
+        MainScope().launch {
             val httpRequestData = platform.getClient().get(HttpUrl.banner)
             val data = httpRequestData.body<ResponseBean>()
             result.invoke(data)
