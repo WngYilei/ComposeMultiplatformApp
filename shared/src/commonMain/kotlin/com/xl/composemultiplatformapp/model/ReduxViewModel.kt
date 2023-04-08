@@ -14,18 +14,16 @@ import kotlinx.coroutines.flow.SharedFlow
 import kotlinx.coroutines.launch
 
 open class ReduxViewModel {
-//    private val _state = MutableSharedFlow<State>()
-//    val state: SharedFlow<State>
-//        get() = _state
+    private val _state = MutableSharedFlow<Any>()
+    val state: SharedFlow<Any>
+        get() = _state
 
-//    protected val pendingActions = Channel<Event>(Channel.BUFFERED)
+    protected val pendingActions = Channel<Any>(Channel.BUFFERED)
 
     private val viewModelJob = SupervisorJob()
     protected val workScope = CoroutineScope(Dispatchers.Main + viewModelJob)
 
-//    protected fun setState(state: State) {
-//        workScope.launch {
-//            _state.emit(state)
-//        }
-//    }
+    protected suspend fun setState(state: Any) {
+        _state.emit(state)
+    }
 }

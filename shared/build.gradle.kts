@@ -14,22 +14,35 @@ kotlin {
             }
         }
     }
-    
+
     listOf(
-        iosX64(),
-        iosArm64(),
-        iosSimulatorArm64()
+        iosX64(), iosArm64(), iosSimulatorArm64()
     ).forEach {
         it.binaries.framework {
             baseName = "shared"
             isStatic = true
+
+            sourceSets.forEach {
+                sourceSets["${it.name}"].resources.srcDir("src/commonMain/resources")
+            }
+
+
         }
     }
 
     val args = listOf(
-        "-linker-option", "-framework", "-linker-option", "Metal",
-        "-linker-option", "-framework", "-linker-option", "CoreText",
-        "-linker-option", "-framework", "-linker-option", "CoreGraphics"
+        "-linker-option",
+        "-framework",
+        "-linker-option",
+        "Metal",
+        "-linker-option",
+        "-framework",
+        "-linker-option",
+        "CoreText",
+        "-linker-option",
+        "-framework",
+        "-linker-option",
+        "CoreGraphics"
     )
 
     iosX64("uikitX64") {
@@ -37,6 +50,10 @@ kotlin {
             executable {
                 entryPoint = "main"
                 freeCompilerArgs = freeCompilerArgs + args
+            }
+
+            sourceSets.forEach {
+                sourceSets["${it.name}"].resources.srcDir("src/commonMain/resources")
             }
 
         }
@@ -48,6 +65,12 @@ kotlin {
                 freeCompilerArgs = freeCompilerArgs + args
                 freeCompilerArgs = freeCompilerArgs + "-Xdisable-phases=VerifyBitcode"
             }
+
+            sourceSets.forEach {
+                sourceSets["${it.name}"].resources.srcDir("src/commonMain/resources")
+            }
+
+
         }
     }
     jvm("desktop") {
@@ -57,8 +80,7 @@ kotlin {
     }
 
     sourceSets {
-        val commonMain by getting{
-
+        val commonMain by getting {
             dependencies {
                 with(compose) {
                     implementation(ui)
@@ -72,6 +94,10 @@ kotlin {
                 implementation(libs.kotlinx.coroutines.core)
                 implementation(libs.ktor.client.negotiation)
                 implementation(libs.ktor.client.json)
+                implementation(libs.ktor.logging)
+                implementation(libs.image.loader)
+                implementation(libs.navigator)
+                implementation(libs.tab.navigator)
             }
 
         }
@@ -80,11 +106,12 @@ kotlin {
                 implementation(kotlin("test"))
             }
         }
-        val androidMain by getting{
+        val androidMain by getting {
             dependsOn(commonMain)
             dependencies {
                 implementation(libs.ktor.client.okhttp)
             }
+
         }
         val androidUnitTest by getting
         val iosX64Main by getting
@@ -100,6 +127,7 @@ kotlin {
                 implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core:1.4.3-native-mt")
                 implementation(libs.ktor.client.ios)
             }
+
         }
         val iosX64Test by getting
         val iosArm64Test by getting
@@ -109,6 +137,8 @@ kotlin {
             iosX64Test.dependsOn(this)
             iosArm64Test.dependsOn(this)
             iosSimulatorArm64Test.dependsOn(this)
+
+
         }
     }
 }

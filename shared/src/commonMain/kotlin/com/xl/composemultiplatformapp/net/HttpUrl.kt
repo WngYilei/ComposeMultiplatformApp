@@ -11,4 +11,7 @@ object HttpUrl {
 
     const val register = "https://www.wanandroid.com/user/register"
 
+
+    const val essay = "https://www.wanandroid.com/article/list/1/json"
+
 }

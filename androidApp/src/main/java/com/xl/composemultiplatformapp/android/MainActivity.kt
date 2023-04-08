@@ -7,6 +7,7 @@ import androidx.activity.compose.setContent
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.material.*
 import androidx.compose.ui.Modifier
+
 import com.xl.composemultiplatformapp.KmmViwe
 
 class MainActivity : ComponentActivity() {
@@ -27,7 +28,6 @@ class MainActivity : ComponentActivity() {
 
 
 }
-
 
 
 
