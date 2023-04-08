@@ -71,7 +71,7 @@ internal fun RowScope.TabNavigationItem(tab: Tab) {
 
 
 @Composable
-internal fun Content(url: String, modifier: Modifier = Modifier) {
+internal fun MyImage(url: String, modifier: Modifier = Modifier) {
     CompositionLocalProvider(
         LocalImageLoader provides getPlatform().getImageLoader(),
     ) {

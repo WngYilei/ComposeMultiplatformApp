@@ -25,13 +25,13 @@ data class BannerBean(
 )
 
 
-
+@Serializable
 data class  EssayBean(
     val `data`: Data,
     val errorCode: Int,
     val errorMsg: String
 )
-
+@Serializable
 data class Data(
     val curPage: Int,
     val datas: List<DataX>,
@@ -41,7 +41,7 @@ data class Data(
     val size: Int,
     val total: Int
 )
-
+@Serializable
 data class DataX(
     val adminAdd: Boolean,
     val apkLink: String,
@@ -80,7 +80,7 @@ data class DataX(
     val visible: Int,
     val zan: Int
 )
-
+@Serializable
 data class Tag(
     val name: String,
     val url: String
