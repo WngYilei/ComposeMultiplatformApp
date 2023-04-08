@@ -95,7 +95,9 @@ kotlin {
                 implementation(libs.ktor.client.negotiation)
                 implementation(libs.ktor.client.json)
                 implementation(libs.ktor.logging)
-                implementation("io.github.qdsfdhvh:image-loader:1.3.1")
+                implementation(libs.image.loader)
+                implementation(libs.navigator)
+                implementation(libs.tab.navigator)
             }
 
         }

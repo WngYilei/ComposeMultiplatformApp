@@ -7,7 +7,7 @@ import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.itemsIndexed
-import androidx.compose.material.Text
+import androidx.compose.material.*
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.CompositionLocalProvider
 import androidx.compose.runtime.mutableStateListOf
@@ -15,6 +15,10 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
+import cafe.adriel.voyager.navigator.tab.CurrentTab
+import cafe.adriel.voyager.navigator.tab.LocalTabNavigator
+import cafe.adriel.voyager.navigator.tab.Tab
+import cafe.adriel.voyager.navigator.tab.TabNavigator
 import com.seiko.imageloader.ImageLoader
 import com.seiko.imageloader.LocalImageLoader
 import com.seiko.imageloader.component.setupKtorComponents
@@ -27,63 +31,56 @@ import com.xl.composemultiplatformapp.model.MainViewModel
 import org.jetbrains.compose.resources.ExperimentalResourceApi
 import org.jetbrains.compose.resources.painterResource
 import com.seiko.imageloader.component.decoder.Decoder
+import com.xl.composemultiplatformapp.root.tab.HomeTab
+import com.xl.composemultiplatformapp.root.tab.LikeTab
+import com.xl.composemultiplatformapp.root.tab.MainTab
 
 @Composable
 internal fun KMMView(device: String) {
 
-    val bannerBeans = mutableStateListOf<BannerBean>()
-    MainViewModel.getBanner {
-        bannerBeans.addAll(it.data)
-    }
-
     Box(modifier = Modifier.fillMaxSize(), contentAlignment = Alignment.Center) {
         Column {
-
-//            Image(
-//                painter = painterResource("icon_look_devices.png"), ""
-//            )
-//            LazyColumn(Modifier.fillMaxWidth().height(200.dp).background(Color.Cyan)) {
-//                itemsIndexed(bannerBeans) { index, item ->
-//                    Text(item.title)
-//                }
-//            }
-
-            CompositionLocalProvider(
-                LocalImageLoader provides getPlatform().getImageLoader(),
-            ) {
-                Box(modifier = Modifier.fillMaxSize().background(Color.Cyan)) {
-                    val url =
-                        "https://www.wanandroid.com/blogimgs/42da12d8-de56-4439-b40c-eab66c227a4b.png"
-                    val painter = rememberAsyncImagePainter(url)
-                    println("status:" + painter.requestState.toString())
-                    Image(painter, null)
-                }
+            TabNavigator(HomeTab) {
+                Scaffold(
+                    content = {
+                        CurrentTab()
+                    },
+                    bottomBar = {
+                        BottomNavigation {
+                            TabNavigationItem(HomeTab)
+                            TabNavigationItem(LikeTab)
+                            TabNavigationItem(MainTab)
+                        }
+                    }
+                )
             }
-
 
         }
     }
 }
 
 @Composable
-fun Test() {
-    Text("这是一段测试文本")
+internal fun RowScope.TabNavigationItem(tab: Tab) {
+    val tabNavigator = LocalTabNavigator.current
+    BottomNavigationItem(
+        selected = tabNavigator.current == tab,
+        onClick = { tabNavigator.current = tab },
+        icon = { Icon(painter = tab.options.icon!!, contentDescription = tab.options.title) }
+    )
 }
 
 
-//@Composable
-//fun Content() {
-//    CompositionLocalProvider(
-//        LocalImageLoader provides getPlatform().getImageLoader(),
-//    ) {
-//        Box(modifier = Modifier.fillMaxSize().background(Color.Cyan)) {
-//            val url = "https://www.wanandroid.com/blogimgs/42da12d8-de56-4439-b40c-eab66c227a4b.png"
-//            val painter = rememberAsyncImagePainter(url)
-//            println("status:"+painter.requestState.toString())
-//            Image(painter, null)
-//        }
-//    }
-//
-//    Text("测试测试测试")
-//}
+@Composable
+internal fun Content(url: String, modifier: Modifier = Modifier) {
+    CompositionLocalProvider(
+        LocalImageLoader provides getPlatform().getImageLoader(),
+    ) {
+        Box(modifier) {
+            val painter = rememberAsyncImagePainter(url)
+            Image(painter, null)
+        }
+    }
+}
+
+
 
