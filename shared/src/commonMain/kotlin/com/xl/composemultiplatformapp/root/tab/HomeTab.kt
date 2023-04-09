@@ -72,17 +72,18 @@ internal fun HomeScreen() {
 
 @Composable
 internal fun EssayItem(dataX: DataX) {
-
     Box(contentAlignment = Alignment.Center) {
         Card(
             modifier = Modifier.wrapContentHeight().fillMaxWidth().padding(start = 10.dp, end = 10.dp, top = 10.dp)
         ) {
             Column(  modifier = Modifier.padding(start = 20.dp, end = 20.dp, top = 10.dp, bottom = 10.dp)) {
-                Text("标题：${dataX.title}", fontSize = 16.sp)
-                Text("作者：${dataX.author}", fontSize = 16.sp)
+                Box(modifier = Modifier.fillMaxWidth()) {
+                    Text(dataX.author, fontSize = 12.sp,color = Color.Gray)
+                    Text(dataX.niceShareDate, fontSize = 12.sp, modifier = Modifier.align(alignment = Alignment.TopEnd),color = Color.Gray)
+                }
+                Text(dataX.title, fontSize = 16.sp, color = Color.Black)
+                Text(dataX.superChapterName, fontSize = 12.sp, modifier = Modifier.padding(top = 40.dp), color = Color.Gray)
             }
-
         }
     }
-
 }
