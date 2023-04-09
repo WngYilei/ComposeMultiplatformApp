@@ -3,6 +3,7 @@ package com.xl.composemultiplatformapp.model
 import com.xl.composemultiplatformapp.ApplicationDispatcher
 import com.xl.composemultiplatformapp.Platform
 import com.xl.composemultiplatformapp.data.EssayBean
+import com.xl.composemultiplatformapp.data.ProjectResponse
 import com.xl.composemultiplatformapp.data.ResponseBean
 import com.xl.composemultiplatformapp.getPlatform
 import com.xl.composemultiplatformapp.net.HttpUrl
@@ -35,6 +36,15 @@ object MainViewModel : ReduxViewModel() {
         MainScope().launch {
             val httpRequestData = platform.getClient().get(HttpUrl.essay)
             val data = httpRequestData.body<EssayBean>()
+            setState(data)
+        }
+    }
+
+
+    fun getProject(){
+        MainScope().launch {
+            val httpRequestData = platform.getClient().get(HttpUrl.project)
+            val data = httpRequestData.body<ProjectResponse>()
             setState(data)
         }
     }
